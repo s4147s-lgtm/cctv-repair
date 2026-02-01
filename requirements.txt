@@ -2,3 +2,8 @@ streamlit
 supabase
 pandas
 plotly
+streamlit
+supabase
+pandas
+plotly
+google-generativeai
