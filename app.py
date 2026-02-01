@@ -2,7 +2,7 @@ import streamlit as st
 from supabase import create_client
 import pandas as pd
 import plotly.express as px
-import google.generativeai as genai
+from google import genai
 import json
 import re
 from datetime import datetime
@@ -26,11 +26,10 @@ supabase = init_supabase()
 # ========== Gemini 초기화 ==========
 @st.cache_resource
 def init_gemini():
-    api_key = st.secrets["gemini"]["api_key"]
-    genai.configure(api_key=api_key)
-    return genai.GenerativeModel("gemini-1.5-flash")
+    api_key = st.secrets["supabase"]["gemini_api_key"]
+    return genai.Client(api_key=api_key)
 
-gemini_model = init_gemini()
+gemini_client = init_gemini()
 
 # ========== 스타일 ==========
 st.markdown("""
@@ -143,7 +142,10 @@ def analyze_with_gemini(user_input: str, inspector_name: str) -> dict:
   "inspector": ""
 }}"""
 
-    response = gemini_model.generate_content(prompt)
+    response = gemini_client.models.generate_content(
+        model="gemini-1.5-flash",
+        contents=prompt
+    )
     raw = response.text.strip()
     raw = re.sub(r"```(?:json)?", "", raw).replace("```", "").strip()
     return json.loads(raw)
