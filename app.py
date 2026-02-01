@@ -184,7 +184,7 @@ with tab2:
             
             col_y, col_m = st.columns(2)
             with col_y:
-                new_year = st.selectbox("년도", list(range(2024, 2019, -1)))
+                new_year = st.selectbox("년도", list(range(datetime.now().year, datetime.now().year - 6, -1)))
             with col_m:
                 new_month = st.selectbox("월", list(range(1, 13)))
         
@@ -303,7 +303,7 @@ with tab3:
                     edit_site = edit_site_opt
                 
                 # 년도 / 월
-                year_list = list(range(2024, 2019, -1))
+                year_list = list(range(datetime.now().year, datetime.now().year - 6, -1))
                 y_idx = year_list.index(selected_row["repair_year"]) if selected_row["repair_year"] in year_list else 0
                 ecol_yl, ecol_ml = st.columns(2)
                 with ecol_yl:
